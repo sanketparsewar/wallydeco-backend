@@ -1,12 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const wallpaperController = require('../controllers/wallpaperController');
+const {
+  addWallpaper,
+  updateWallpaper,
+  getAllWallpapers,
+  getWallpaperById,
+  deleteWallpaper,
+} = require("../controllers/wallpaperController");
+const validate = require("../middlewares/validateMiddleware");
+const {
+  WallpaperValidation,
+} = require("../utils/wallpaperValidation");
 
-// Routes for wallpapers
-router.post('/', wallpaperController.createWallpaper); // Create a wallpaper
-router.get('/', wallpaperController.getAllWallpapers); // Get all wallpapers
-router.get('/:id', wallpaperController.getWallpaperById); // Get wallpaper by ID
-router.put('/:id', wallpaperController.updateWallpaper); // Update a wallpaper
-router.delete('/:id', wallpaperController.deleteWallpaper); // Delete a wallpaper
+router.post("/", validate(WallpaperValidation), addWallpaper);
+router.put("/:id", validate(WallpaperValidation), updateWallpaper); // Update a wallpaper
+router.get("/:id", getWallpaperById);
+router.get("/", getAllWallpapers);
+router.delete("/:id", deleteWallpaper);
 
 module.exports = router;
