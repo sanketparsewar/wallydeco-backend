@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   items: [
     {
-      wallpaperId: {
+      wallpaper: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Wallpaper",
         required: true,
@@ -27,6 +27,6 @@ const orderSchema = new mongoose.Schema({
   },
   orderDate: { type: Date, default: Date.now },
   deliveryDate: { type: Date },
-});
+},{timestamps:true});
 
 module.exports = mongoose.model("Order", orderSchema);
