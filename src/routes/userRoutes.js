@@ -1,13 +1,18 @@
 // userRoutes.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('../controllers/userController');
+const {
+  getUserById,
+  updateUser,
+  deleteUser,
+} = require("../controllers/userController");
+const validate = require("../middlewares/validateMiddleware");
+const { updateUserValidation } = require("../utils/userValidation");
 
-// Routes for users
-// router.post('/register', userController.registerUser); // Register a new user
-// router.post('/login', userController.loginUser); // Login a user
-router.get('/:id', userController.getUserById); // Get user by ID
-router.put('/:id', userController.updateUser); // Update a user
-router.delete('/:id', userController.deleteUser); // Update a user
+router.get("/:id", getUserById);
+router.put("/:id", validate(updateUserValidation), updateUser);
+router.delete("/:id", deleteUser);
+
+
 
 module.exports = router;
