@@ -1,5 +1,6 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+// const { hashPassword } = require("./authentication");
 
 const userSchema = new mongoose.Schema(
   {
@@ -11,44 +12,26 @@ const userSchema = new mongoose.Schema(
       enum: ["admin", "customer"],
       default: "customer",
     },
-    phone: { type: String },  
+    phone: { type: String },
     address: {
-      type: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        zip: { type: String, required: true },
-      },
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      zip: { type: String, required: true },
+    },
+    gender: {
+      type: String,
+      enum: ["Male", "Female", "Other"],
       required: true,
+      default: "Male",
     },
     image: {
       type: String,
       default:
-        "https://res.cloudinary.com/dgcc3397p/image/upload/v1737920299/profile-icon-design-free-vector_rfoiyu.jpg",
-    },orders:[
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Order",
-      }
-    ]
+        "https://res.cloudinary.com/dgcc3397p/image/upload/v1739263331/profile_picture3_bscksk.jpg",
+    },
   },
   { timestamps: true }
 );
-
-// Hash password before saving
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
-
-userSchema.methods.comparePassword = async function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
 
 module.exports = mongoose.model("User", userSchema);
