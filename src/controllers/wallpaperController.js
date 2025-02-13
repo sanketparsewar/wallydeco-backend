@@ -13,9 +13,54 @@ exports.addWallpaper = async (req, res) => {
 };
 
 // Get all wallpapers
-exports.getAllWallpapers = async (req, res) => {
+exports.getWallpapers = async (req, res) => {
   try {
-    const wallpapers = await Wallpaper.find();
+    const { search, category, price, stock, page = 1, limit = 10 } = req.query;
+    let filter = {};
+
+    if (search) {
+      filter.title = { $regex: search, $options: "i" }; // Case-insensitive search
+    }
+    if (category) {
+      filter.category = category;
+    }
+    if (price) {
+      filter.price = { $lte: Number(price) }; // Fetch wallpapers with price ≤ given price
+    }
+    if (stock) {
+      filter.stock = Number(stock);
+    }
+
+    // Convert page & limit to numbers
+    const pageNum = Math.max(1, Number(page)); // Ensure page is at least 1
+    const limitNum = Math.max(1, Number(limit)); // Ensure limit is at least 1
+    const skip = (pageNum - 1) * limitNum;
+
+    // Get total count (for frontend pagination)
+    const total = await Wallpaper.countDocuments(filter);
+
+    // Fetch paginated wallpapers
+    const wallpapers = await Wallpaper.find(filter)
+      .skip(skip)
+      .limit(limitNum);
+
+    res.status(200).json({
+      total, // Total number of wallpapers (without pagination)
+      page: pageNum,
+      limit: limitNum,
+      totalPages: Math.ceil(total / limitNum),
+      wallpapers, // Paginated wallpapers
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+exports.getWallpapersByCategory = async (req, res) => {
+  try {
+    const category=req.params
+    const wallpapers = await Wallpaper.find(category).select('_id title images category');
     res.status(200).json(wallpapers);
   } catch (err) {
     res.status(500).json({ error: err.message });
