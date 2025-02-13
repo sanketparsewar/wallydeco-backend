@@ -33,7 +33,7 @@ connectDB
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/wallpaper",verifyToken, wallpaperRoutes);
+app.use("/api/wallpaper", wallpaperRoutes);
 app.use("/api/user",verifyToken, userRoutes);
 app.use("/api/order",verifyToken, orderRoutes);
 app.use("/api/upload",verifyToken, cloudinaryRoutes);
