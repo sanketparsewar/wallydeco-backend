@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:4200", // Allow Angular frontend
+    origin: ["http://localhost:4200", "https://wallydeconew.vercel.app"], // Allow Angular frontend
     credentials: true, // Allow cookies & authentication headers
   })
 );
