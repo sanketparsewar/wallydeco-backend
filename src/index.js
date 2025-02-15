@@ -4,8 +4,7 @@ const connectDB = require("./database/configdb");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
-const verifyToken=require('./middlewares/authMiddleware')
-
+const verifyToken = require("./middlewares/authMiddleware");
 
 // Routes
 const authRoutes = require("./routes/authRoutes");
@@ -34,8 +33,8 @@ connectDB
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/wallpaper", wallpaperRoutes);
-app.use("/api/user",verifyToken, userRoutes);
-app.use("/api/order",verifyToken, orderRoutes);
-app.use("/api/upload",verifyToken, cloudinaryRoutes);
+app.use("/api/user", verifyToken, userRoutes);
+app.use("/api/order", verifyToken, orderRoutes);
+app.use("/api/upload", verifyToken, cloudinaryRoutes);
 
 module.exports = app;
