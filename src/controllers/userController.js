@@ -9,7 +9,7 @@ exports.getUserById = async (req, res) => {
 
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ error: "Server error", details: err.message });
+    res.status(500).json({ error: "Server error", message: err.message });
   }
 };
 
@@ -26,7 +26,7 @@ exports.updateUser = async (req, res) => {
 
     res.status(200).json({ message: "User updated successfully", user });
   } catch (err) {
-    res.status(400).json({ error: "Bad request", details: err.message });
+    res.status(400).json({ error: "Bad request", message: err.message });
   }
 };
 
@@ -38,6 +38,6 @@ exports.deleteUser = async (req, res) => {
 
     res.status(200).json({ message: "User deleted successfully" });
   } catch (err) {
-    res.status(500).json({ error: "Server error", details: err.message });
+    res.status(500).json({ error: "Server error", message: err.message });
   }
 };
