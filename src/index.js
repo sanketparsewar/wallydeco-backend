@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://wallydeconew.vercel.app", // Allow Angular frontend (local + live)
+    origin: ["https://wallydeconew.vercel.app","http://localhost:4200"], // Allow Angular frontend (local + live)
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
     credentials: true, // Allow cookies & authentication headers
