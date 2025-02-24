@@ -60,7 +60,7 @@ exports.getWallpapers = async (req, res) => {
 exports.getWallpapersByCategory = async (req, res) => {
   try {
     const category=req.params
-    const wallpapers = await Wallpaper.find(category).select('_id title images category');
+    const wallpapers = await Wallpaper.find(category).select('_id title images category price');
     res.status(200).json(wallpapers);
   } catch (err) {
     res.status(500).json({ error: err.message });
