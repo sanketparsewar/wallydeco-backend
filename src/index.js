@@ -4,8 +4,7 @@ const connectDB = require("./database/configdb");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
-const verifyToken=require('./middlewares/authMiddleware')
-
+const verifyToken = require("./middlewares/authMiddleware");
 
 // Routes
 const authRoutes = require("./routes/authRoutes");
@@ -21,10 +20,13 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:4200", // Allow Angular frontend
+    origin: ["https://wallydeconew.vercel.app","http://localhost:4200"], // Allow Angular frontend (local + live)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
     credentials: true, // Allow cookies & authentication headers
   })
 );
+
 
 // Database connection
 connectDB
@@ -34,8 +36,8 @@ connectDB
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/wallpaper", wallpaperRoutes);
-app.use("/api/user",verifyToken, userRoutes);
-app.use("/api/order",verifyToken, orderRoutes);
-app.use("/api/upload",verifyToken, cloudinaryRoutes);
+app.use("/api/user", verifyToken, userRoutes);
+app.use("/api/order", verifyToken, orderRoutes);
+app.use("/api/upload", verifyToken, cloudinaryRoutes);
 
 module.exports = app;
